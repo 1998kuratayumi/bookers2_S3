@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-6">
+            <h2><%= @user.name %>さんとのチャット</h2>
+
+            <table class="message table">
+              <thead>
+                <tr>
+                  <th style="text-align: left; font-size: 20px;"><%= current_user.name %></th>
+                  <th style="text-align: right; font-size: 20px;"><%= @user.name %></th>
+                </tr>
+              </thead>
+              <% @conversations.each do |conversation| %>
+                <% if conversation.user_id == current_user.id %>
+                <tbody>
+                  <tr>
+                    <th>
+                      <p style="text-align: left;"><%= conversation.body %></p>
+                    </th>
+                    <th></th>
+                  </tr>
+                <% else %>
+                  <tr>
+                    <th></th>
+                    <th>
+                      <p style="text-align: right;"><%= conversation.body %></p>
+                    </th>
+                  </tr>
+                </tbody>
+                <% end %>
+              <% end %>
+            </table>
+
+            <%= form_with model: @message, local: true do |f| %>
+              <%= f.text_field :body %>
+              <%= f.hidden_field :conversation_id %>
+              <%= f.submit "SEND", class:"btn btn-sm btn-success chat-btn" %>
+            <% end %>
+        </div>
+    </div>
+</div>
